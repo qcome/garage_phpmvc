@@ -22,7 +22,7 @@ function connexionEmployee($user, $pwd){
 	$res->closeCursor();
 	#si la requete n'a pas de ligne
 	if ($ligne == false)
-		throw new Exception("pseudo ou mdp incorrect");
+		throw new Exception("login ou mdp incorrect");
 	else
 		return $ligne;
 }
@@ -33,7 +33,6 @@ function getClientInterventions($id_client){
 			c.client_id = i.interv_client where c.client_id=".$id_client;
 	$res=$connexion->query($req); 
 	$res->setFetchMode(PDO::FETCH_OBJ);
-	#$ligne=$res->fetch();
 	
 	#si la requete n'a pas de ligne
 	if ($result = $res->fetchAll()) {
