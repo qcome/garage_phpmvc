@@ -2,6 +2,7 @@
 
 $titre = 'Accueil';
 
+
 $contenu = '<form method="post">
 <fieldset>
 	<legend>Identifiant</legend>
@@ -19,11 +20,6 @@ if(isset($error))
 	$contenu .='<div class="alert"> Erreur: &nbsp;'.$error.'!</div>';
 }
 $contenu .='</fieldset>';
-
-
-function afficherErreur($erreur){
-	echo $erreur;
-}
 
 
 

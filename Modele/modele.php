@@ -21,12 +21,25 @@ function connexionEmployee($user, $pwd){
 	
 	$res->closeCursor();
 	#si la requete n'a pas de ligne
-	if ($ligne == false){
+	if ($ligne == false)
 		throw new Exception("pseudo ou mdp incorrect");
-	}
-	else{
+	else
 		return $ligne;
-	}
+}
+
+function getClientInterventions($id_client){
+	$connexion=getConnect();
+	$req="select * from client c INNER JOIN intervention i ON 
+			c.client_id = i.interv_client where c.client_id=".$id_client;
+	$res=$connexion->query($req); 
+	$res->setFetchMode(PDO::FETCH_OBJ);
+	
+	#$res->closeCursor();
+	if ($res->columnCount() === 0)
+		throw new Exception("client inconnu au bataillon");
+	else
+		return $res;
+	
 	
 }
 
@@ -36,3 +49,5 @@ function getConnect(){
 	$connexion->query('SET NAMES UTF8');
 	return $connexion;
 }
+
+
