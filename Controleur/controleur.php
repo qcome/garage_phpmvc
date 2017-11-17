@@ -36,8 +36,10 @@ function CtlGestionFinanciere(){
 }
 
 function CtlGestionFinanciereInterventions($client_id){
-	#afficherGestionFinanciere();
-	$result=getClientInterventions($client_id);
-	
-	afficherGestionFinanciereResultats($result);
+	try{
+		$result=getClientInterventions($client_id);
+		afficherGestionFinanciereResultats($result);
+	}catch(Exception $e){
+		afficherGestionFinanciere($e->getMessage());
+	}
 }

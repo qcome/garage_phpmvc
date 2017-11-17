@@ -33,14 +33,15 @@ function getClientInterventions($id_client){
 			c.client_id = i.interv_client where c.client_id=".$id_client;
 	$res=$connexion->query($req); 
 	$res->setFetchMode(PDO::FETCH_OBJ);
+	#$ligne=$res->fetch();
 	
-	#$res->closeCursor();
-	if ($res->columnCount() === 0)
-		throw new Exception("client inconnu au bataillon");
-	else
-		return $res;
-	
-	
+	#si la requete n'a pas de ligne
+	if ($result = $res->fetchAll()) {
+		$res->closeCursor();
+        return $result;
+    }
+	$res->closeCursor();
+	throw new Exception("Client inconnu au bataillon");
 }
 
 function getConnect(){

@@ -16,7 +16,9 @@ function afficherGestionFinanciere($data){
 					<input type="submit" name="idClientSubmit" value="Valider" />
 				</form>
 				</p>';
-	$contenu.=$data;
+	if ($data != ''){
+		$contenu.='<p class="alert">'.$data.'<p>';
+	}
 	require_once 'gabarit.php';
 }
 
@@ -36,13 +38,21 @@ function getMainContenu(){
 function afficherGestionFinanciereResultats($result){
 	$data='';
 	$no_result=True;
-	while ($row = $result->fetch()){
+	#var_dump ($result);
+	
+#	while ($row = $result->fetch()){
+#		if($row->interv_etatfacture!='P'){
+#			$data.='<p>'.$row->interv_id.$row->interv_tarif.$row->interv_etatfacture.'</p>';
+#			
+#		}
+#	}
+	foreach ($result as $row){
 		if($row->interv_etatfacture!='P'){
 			$data.='<p>'.$row->interv_id.$row->interv_tarif.$row->interv_etatfacture.'</p>';
 			$no_result=False;
 		}
 	}
 	if($no_result)
-		$data='<p>Toute les factures ont été payées</p>';
+		$data.='<p>Toute les factures ont été payées</p>';
 	afficherGestionFinanciere($data);
 }
