@@ -8,6 +8,9 @@
 			$client_id=$_POST['idClient'];
 			CtlGestionFinanciereInterventions($client_id);
 		}
+		if(isset($_POST['payerDerniereInterv'])){
+			CtlGestionFinanciereInterventionsPaiment($_POST['idClientHidden'], $_POST['interv']);
+		}
 		
 		if(isset($_POST['loginsubmit'])){
 			$user=$_POST['user'];
@@ -17,6 +20,8 @@
 		else{
 			CtlAccueil();
 		}
+		
+		
 		
 		
 		

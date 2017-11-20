@@ -13,14 +13,14 @@ function CtlAccueil() {
 function CtlLogin($user, $pwd) {
 	try{
 		$res=connexionEmployee($user, $pwd);
-		$_SESSION['empl_id'] = $res->empl_id;
-		$_SESSION['empl_cat'] = $res->cat_name;
-		if ($_SESSION['empl_id'] == 1){
+		#$_SESSION['empl_id'] = $res->empl_id;
+		#$_SESSION['empl_cat'] = $res->cat_name;
+		if ($res->empl_id == 1){
 			afficherVueAgent();
-		}else if ($_SESSION['empl_id'] == 2){
+		}else if ($res->empl_id == 2){
 			require('Vue/vueMecanicien.php');
 			$_SESSION['current_view'] = 'Vue/vueMecanicien.php';
-		}else if ($_SESSION['empl_id'] == 3){
+		}else if ($res->empl_id == 3){
 			require('Vue/vueDirecteur.php');
 			$_SESSION['current_view'] = 'Vue/vueDirecteur.php';
 		}
@@ -32,14 +32,12 @@ function CtlLogin($user, $pwd) {
 }
 
 function CtlErreur($msg){
-	$error = $msg;
-	
+	$error = $msg;	
 	require($_SESSION['current_view']);
-	#afficherErreur($msg);
 }
 
 function CtlGestionFinanciere(){
-	afficherGestionFinanciere('');
+	afficherGestionFinanciere('', '');
 	#require($_SESSION['current_view']);
 }
 
@@ -48,10 +46,20 @@ function CtlGestionFinanciereInterventions($client_id){
 	if(ctype_digit($client_id))
 		try{
 			$result=getClientInterventions($client_id);
-			afficherGestionFinanciereResultats($result);
+			afficherGestionFinanciereResultats($result, $client_id);
 		}catch(Exception $e){
-			afficherGestionFinanciere($e->getMessage());
+			afficherGestionFinanciere($e->getMessage(), '');
 		}
 	else
-		afficherGestionFinanciere("L'id client doit etre un entier");
+		afficherGestionFinanciere("L'id client doit etre un entier", '');
+	
+}
+
+function CtlGestionFinanciereInterventionsPaiment($client_id, $tab_idinterventions){
+	try{
+		$result=updatePaiementInterventions($client_id, $tab_idinterventions);
+		CtlGestionFinanciereInterventions($client_id);
+	}catch(Exception $e){
+		afficherGestionFinanciere($e->getMessage(), '');
+	}
 }
