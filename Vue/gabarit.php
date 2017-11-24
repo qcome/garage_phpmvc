@@ -11,6 +11,7 @@
         <a href="site.php"><h1 id="titre">Garage</h1></a>
       </header>
       <div id="contenu">
+		<img src="Vue/image/carglouch.jpg" alt="Mountain View">
         <?= $contenu ?>   
       </div>
       <footer id="footer">

@@ -1,36 +1,42 @@
 <?php
 	require_once ('Controleur/controleur.php');
+	require_once ('Controleur/controleur_agent.php');
 	try{
-		if (isset($_POST['gestionFinanciere'])){
-			CtlGestionFinanciere();
-		}
-		if (isset($_POST['idClientSubmit'])){
+		#page accueil
+		if (isset($_POST['loginsubmit'])){
+			$user=$_POST['user'];
+			$pwd=$_POST['pwd'];
+			$type_empl=CtlLogin($user, $pwd);
+		} 
+		#page agent
+		elseif (isset($_POST['idClientSubmit'])){
 			$client_id=$_POST['idClient'];
 			CtlGestionFinanciereInterventions($client_id);
 		}
-		if(isset($_POST['payerDerniereInterv'])){
-			CtlGestionFinanciereInterventionsPaiment($_POST['idClientHidden'], $_POST['interv']);
+		elseif(isset($_POST['payerInterv'])){
+			if(isset($_POST['interv'])){
+				$tab_selection_interv=$_POST['interv'];
+				CtlGestionFinanciereInterventionsPaiment($tab_selection_interv);
+			}else
+				CtlGestionFinanciereInterventions($_SESSION['idClient'], 'Il n\'y a aucune checkbox de sélectionné.');
 		}
-		
-		if(isset($_POST['loginsubmit'])){
-			$user=$_POST['user'];
-			$pwd=$_POST['pwd'];
-			CtlLogin($user, $pwd);
+		elseif(isset($_POST['differerInterv'])){
+			if(isset($_POST['interv'])){
+				$tab_selection_interv=$_POST['interv'];
+				CtlGestionFinanciereInterventionsDifferer($tab_selection_interv);
+			}else{
+				CtlGestionFinanciereInterventions($_SESSION['idClient'], 'Il n\'y a aucune checkbox de sélectionné.');
+			}
+		}
+		elseif(isset($_POST['gestionFinanciere'])){
+			CtlGestionFinanciere();
 		}
 		else{
+			#par défault affichage page accueil
 			CtlAccueil();
 		}
-		
-		
-		
-		
-		
-		
 	}
 	catch(Exception $e) {
 		CtlErreur($e->getMessage());
-		#echo $e->getMessage();
-		#$msg = $e->getMessage();
-		#CtlErreur($msg);
 	}
 	

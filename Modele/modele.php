@@ -43,12 +43,12 @@ function getClientInterventions($id_client){
 	throw new Exception("Client inconnu au bataillon");
 }
 
-function updatePaiementInterventions($id_client, $tab_idinterventions){
+function updatePaiementInterventions($id_client, $tab_interventions, $interventionsChecked){
 	$connexion=getConnect();
 	$req="UPDATE intervention SET interv_etatfacture='P' WHERE interv_id IN (";
-	foreach ($tab_idinterventions as $id_intervention){
-		$req.= $id_intervention;
-		if (next($tab_idinterventions)==true) 
+	foreach ($interventionsChecked as $intervention){
+		$req.= $tab_interventions[$intervention]->interv_id;
+		if (next($interventionsChecked)==true) 
 			$req.= ",";
 		else
 			$req.=")";
@@ -57,6 +57,21 @@ function updatePaiementInterventions($id_client, $tab_idinterventions){
 	$res->closeCursor();
 	return $res;
 	
+}
+
+function updateDiffererInterventions($id_client, $tab_interventions, $interventionsChecked){
+	$connexion=getConnect();
+	$req="UPDATE intervention SET interv_etatfacture='DF' WHERE interv_id IN (";
+	foreach ($interventionsChecked as $intervention){
+		$req.= $tab_interventions[$intervention]->interv_id;
+		if (next($interventionsChecked)==true) 
+			$req.= ",";
+		else
+			$req.=")";
+	}
+	$res=$connexion->query($req); 
+	$res->closeCursor();
+	return $res;
 }
 
 function getConnect(){

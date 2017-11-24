@@ -1,6 +1,7 @@
 <?php 
 
-function afficherVueAccueil($err_msg){
+#si function appelé avec un argument, ajoute le message d'erreur
+function afficherVueAccueil($err_msg = ''){
 	$titre = 'Accueil';
 	$contenu = '<form method="post">
 	<fieldset>
@@ -13,14 +14,12 @@ function afficherVueAccueil($err_msg){
 			<label for="password">Mot de passe :</label> 
 			<input type="password" name="pwd" id="password" required /> 
 			<input type="submit" name="loginsubmit" value="Identification" />
-		</p>';
-	if($err_msg != ''){
-		$contenu.='<div class="alert"> Erreur: &nbsp;'.$err_msg.'!</div>';
-	}
-	$contenu .='</fieldset>';
+		</p>'.$err_msg.'</fieldset>';
+	
 	
 	require_once 'gabarit.php';
 }
+
 
 
 
