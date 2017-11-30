@@ -22,6 +22,10 @@
 			}else
 				CtlGestionFinanciereInterventions($_SESSION['idClient'], 'Il n\'y a aucune checkbox de sélectionné.');
 		}
+		elseif(isset($_POST['modifierDiffere'])){
+			$diff_input = $_POST['diffInput'];
+			CtlGestionFinanciereModifierDiffere($diff_input);
+		}
 		elseif(isset($_POST['differerInterv'])){
 			if(isset($_POST['interv'])){
 				$tab_selection_interv=$_POST['interv'];

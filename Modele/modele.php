@@ -29,10 +29,10 @@ function connexionEmployee($user, $pwd){
 
 function getClientInterventions($id_client){
 	$connexion=getConnect();
-	$req="select * from client c INNER JOIN intervention i ON 
-			c.client_id = i.interv_client INNER JOIN type_intervention t ON
-			i.interv_typeid = t.typeinterv_id INNER JOIN employe e ON
-			i.interv_mecanicien = e.empl_id INNER JOIN etat_facture f ON
+	$req="select * from client c LEFT JOIN intervention i ON 
+			c.client_id = i.interv_client LEFT JOIN type_intervention t ON
+			i.interv_typeid = t.typeinterv_id LEFT JOIN employe e ON
+			i.interv_mecanicien = e.empl_id LEFT JOIN etat_facture f ON
 			f.etat_facture_char = i.interv_etatfacture
 			WHERE c.client_id=".$id_client." ORDER BY i.interv_etatfacture ASC";
 	$res=$connexion->query($req); 
@@ -72,6 +72,14 @@ function updateDiffererInterventions($id_client, $tab_interventions, $interventi
 		else
 			$req.=")";
 	}
+	$res=$connexion->query($req); 
+	$res->closeCursor();
+	return $res;
+}
+
+function updateDiffereMaxClient($id_client, $diff_input){
+	$connexion=getConnect();
+	$req="UPDATE client SET client_maxdiff=".$diff_input." WHERE client_id=".$id_client;
 	$res=$connexion->query($req); 
 	$res->closeCursor();
 	return $res;

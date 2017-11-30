@@ -11,6 +11,33 @@ function CtlGestionFinanciere(){
 	afficherGestionFinanciere();
 }
 
+function CtlGestionFinanciereModifierDiffere($diff_input){
+	if(ctype_digit($diff_input))
+		//check si la valeur entrée est supérieure ou égale a la somme des interventions déjà en différé
+		if($_SESSION['diffMaxAutorise']-$_SESSION['diffRestantAutorise'] <= $diff_input)
+			try{
+				updateDiffereMaxClient($_SESSION['idClient'], $diff_input);
+				$_SESSION['diffMaxAutorise']=$diff_input;
+				$cpt_interv_diff=0;
+				foreach ($_SESSION['interventionsClient'] as $intervention){
+					if($intervention->interv_etatfacture == 'DF')
+						$cpt_interv_diff+=$intervention->interv_tarif;
+				}
+				$_SESSION['diffRestantAutorise']=$diff_input-$cpt_interv_diff;
+				afficherGestionFinanciereResultats($_SESSION['interventionsClient'], $_SESSION['idClient'], $_SESSION['diffMaxAutorise'], $_SESSION['diffRestantAutorise']);
+			}catch(Exception $e){
+				afficherGestionFinanciere($err_msg=getDivErrorMsg($e->getMessage()));
+			}
+		else{
+			$a = $_SESSION['diffMaxAutorise']-$_SESSION['diffRestantAutorise'];
+			afficherGestionFinanciereResultats($_SESSION['interventionsClient'], $_SESSION['idClient'], $_SESSION['diffMaxAutorise'], $_SESSION['diffRestantAutorise'], '',
+				$err_msg_modifierdiff=getDivErrorMsg('Modification impossible, l\'autorisation doit etre >= à '.$a.'€'));
+		}
+	else
+		afficherGestionFinanciereResultats($_SESSION['interventionsClient'], $_SESSION['idClient'], $_SESSION['diffMaxAutorise'], $_SESSION['diffRestantAutorise'], '',
+				$err_msg_modifierdiff=getDivErrorMsg('Vous devez entrer un entier.'));
+}
+
 function CtlGestionFinanciereInterventions($client_id, $error_msg=''){
 	# si l'utilisateur a bien entré un entier pour l'id
 	if(ctype_digit($client_id))
@@ -25,8 +52,9 @@ function CtlGestionFinanciereInterventions($client_id, $error_msg=''){
 					$cpt_interv_diff+=$intervention->interv_tarif;
 			}
 			$_SESSION['diffRestantAutorise']=($result[0]->client_maxdiff)-$cpt_interv_diff;
+			$_SESSION['diffMaxAutorise']=$result[0]->client_maxdiff;
 			# fin
-			afficherGestionFinanciereResultats($result, $client_id, getDivErrorMsg($error_msg));
+			afficherGestionFinanciereResultats($result, $client_id, $_SESSION['diffMaxAutorise'],$_SESSION['diffRestantAutorise'] , getDivErrorMsg($error_msg));
 		}catch(Exception $e){
 			afficherGestionFinanciere($err_msg=getDivErrorMsg($e->getMessage()));
 		}

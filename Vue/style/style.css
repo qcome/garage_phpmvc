@@ -13,3 +13,6 @@ form{
 #global{
 	text-align: center;
 }
+#diff_input{
+	width: 50px;
+}
