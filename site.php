@@ -9,7 +9,7 @@
 			$pwd=$_POST['pwd'];
 			$type_empl=CtlLogin($user, $pwd);
 		} 
-		#####page agent#####
+	#####page agent#####
 		#Gestion Financiere
 		elseif (isset($_POST['idClientSubmit'])){
 			$client_id=$_POST['idClient'];
@@ -45,6 +45,16 @@
 			$client_id=$_POST['idClient'];
 			CtlSyntheseClientInterventions($client_id);
 		}
+		#Retrouver client
+		elseif(isset($_POST['gotoRetrouverClient'])){
+			CtlRetrouverClient();
+		}
+		elseif(isset($_POST['retrouverClientSubmit'])){
+			$client_birthday=$_POST['birthdayClient'];
+			$client_name=$_POST['nomClient'];
+			CtlRetrouverClientResultat($client_name, $client_birthday);
+		}
+		
 		elseif(isset($_POST['logout'])){
 			CtlLogout();
 		}

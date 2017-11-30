@@ -4,8 +4,8 @@ function afficherGestionFinanciere ($data='', $err_msg=''){
 	$contenu = '<div class="elem">
 				<h3>Gestion financière</h3>
 				<form method="post">
-					<label for="idClient">ID client :</label> 
-					<input type="text" name="idClient" id="idClient" required />
+					<label for="id_client">ID client :</label> 
+					<input type="text" name="idClient" id="id_client" required />
 					<input type="submit" name="idClientSubmit" value="Valider" />
 				</form>
 				</div>';
@@ -75,20 +75,3 @@ function afficherGestionFinanciereResultats($tab_interventions, $client_id, $dif
 	}
 	afficherGestionFinanciere($contenu);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

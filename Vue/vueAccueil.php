@@ -13,6 +13,8 @@ function afficherVueAccueil($err_msg = ''){
 		<p>
 			<label for="password">Mot de passe :</label> 
 			<input type="password" name="pwd" id="password" required /> 
+			<br>
+			<br>
 			<input type="submit" name="loginsubmit" value="Identification" />
 		</p>'.$err_msg.'</fieldset>';
 	

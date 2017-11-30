@@ -2,6 +2,7 @@
 require_once('Vue/Agent/vueAgent.php');
 require_once('Vue/Agent/vueAgentGestionFinanciere.php');
 require_once('Vue/Agent/vueAgentSyntheseClient.php');
+require_once('Vue/Agent/vueAgentRetrouverClient.php');
 
 /*************************************
 ******Partie GESTION FINANCIERE*******
@@ -126,6 +127,29 @@ function CtlSyntheseClientInterventions($client_id, $error_msg=''){
 		}
 	else
 		afficherSyntheseClient($err_msg=getDivErrorMsg("L'id client doit etre un entier"));
+}
+
+/*************************************
+*******Partie RETROUVER CLIENT********
+*************************************/
+
+function CtlRetrouverClient(){
+	afficherRetrouverClient();
+}
+
+function CtlRetrouverClientResultat($client_name, $client_birthday){
+	try{
+		$res=getClientId($client_name, $client_birthday);
+		# si client trouvé
+		if($res)
+			afficherRetrouverClientResultat($res);
+		else
+			afficherRetrouverClient($err_msg=getDivErrorMsg("Client non trouvé."));
+		
+	}catch(Exception $e){
+		afficherRetrouverClient($err_msg=getDivErrorMsg($e->getMessage()));
+	}
+	
 }
 
 

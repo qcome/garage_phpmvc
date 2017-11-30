@@ -1,15 +1,15 @@
 <?php
 
-function getClient($id){
+/*function getClient($id){
 	$connexion=getConnect();
-	$req="select * from client where client_id = 1";
+	$req="select * from client where client_id = ".$id;
 	$res=$connexion->query($req); 
 	$res->setFetchMode(PDO::FETCH_OBJ);
 	while($result = $res->fetch()){
 		echo $result->client_firstname;
 	}
 	$res->closeCursor();
-}
+}*/
 
 function connexionEmployee($user, $pwd){
 	$connexion=getConnect();
@@ -83,6 +83,15 @@ function updateDiffereMaxClient($id_client, $diff_input){
 	$res=$connexion->query($req); 
 	$res->closeCursor();
 	return $res;
+}
+
+function getClientId($client_name, $client_birthday){
+	$connexion=getConnect();
+	$req="select client_id from client where client_lastname = '".$client_name."' AND client_birthday = '".$client_birthday."'";
+	$res=$connexion->query($req); 
+	$result = $res->fetchColumn();
+	$res->closeCursor();
+	return $result;
 }
 
 function getConnect(){
