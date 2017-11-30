@@ -10,8 +10,9 @@ function CtlAccueil() {
 function CtlLogin($user, $pwd) {
 	try{
 		$res=connexionEmployee($user, $pwd);
+		$_SESSION['username']=$user;
 		if ($res->empl_id == 1){
-			afficherVueAgent();
+			afficherVueAgent($user);
 		}else if ($res->empl_id == 2){
 			require('Vue/vueMecanicien.php');
 			$_SESSION['current_view'] = 'Vue/vueMecanicien.php';
@@ -19,10 +20,15 @@ function CtlLogin($user, $pwd) {
 			require('Vue/vueDirecteur.php');
 			$_SESSION['current_view'] = 'Vue/vueDirecteur.php';
 		}
+		return $res->empl_id;
 	}
 	catch(Exception $e){
 		afficherVueAccueil(getDivErrorMsg($e->getMessage()));
 	}
-	return $res->empl_id;
+}
+
+function CtlLogout(){
+	session_destroy();
+	afficherVueAccueil();
 }
 

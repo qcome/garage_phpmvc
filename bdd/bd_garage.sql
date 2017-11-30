@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1:3306
--- Généré le :  Mer 22 Novembre 2017 à 16:17
+-- Généré le :  Jeu 30 Novembre 2017 à 02:10
 -- Version du serveur :  5.5.24
 -- Version de PHP :  5.5.38
 
@@ -51,17 +51,20 @@ CREATE TABLE `client` (
   `client_firstname` varchar(25) COLLATE utf8_bin NOT NULL,
   `client_lastname` varchar(25) COLLATE utf8_bin NOT NULL,
   `client_address` varchar(50) COLLATE utf8_bin NOT NULL,
-  `client_phonenum` int(10) NOT NULL,
-  `client_mail` varchar(30) COLLATE utf8_bin NOT NULL
+  `client_phonenum` varchar(10) COLLATE utf8_bin NOT NULL,
+  `client_mail` varchar(30) COLLATE utf8_bin NOT NULL,
+  `client_birthday` date NOT NULL,
+  `client_maxdiff` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Contenu de la table `client`
 --
 
-INSERT INTO `client` (`client_id`, `client_firstname`, `client_lastname`, `client_address`, `client_phonenum`, `client_mail`) VALUES
-(1, 'Jacky', 'Mecano', '6 rue des tulipes', 612121212, 'jacky.mecano@gmail.com'),
-(2, 'Jean-michel', 'Douze', '12 rue des carottes', 983736337, 'azeazfd@azdfojk.fr');
+INSERT INTO `client` (`client_id`, `client_firstname`, `client_lastname`, `client_address`, `client_phonenum`, `client_mail`, `client_birthday`, `client_maxdiff`) VALUES
+(1, 'Jean-Pierre', 'Pernaut', '6 rue des tulipes', '0612121212', 'jpp@mail.com', '1950-04-08', 200),
+(2, 'Vincent', 'Lagaf', '12 rue des carottes', '0983736337', 'bolelavabo@mail.com', '1959-10-30', 1000),
+(3, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500);
 
 -- --------------------------------------------------------
 
@@ -81,7 +84,7 @@ CREATE TABLE `employe` (
 --
 
 INSERT INTO `employe` (`empl_id`, `empl_identifiant`, `empl_password`, `empl_catid`) VALUES
-(1, 'boromir', 'douze', 1),
+(1, 'agent', 'douze', 1),
 (2, 'mecanicien', 'douze', 2),
 (3, 'directeur', 'douze', 3);
 
@@ -115,6 +118,7 @@ CREATE TABLE `intervention` (
   `interv_id` int(11) NOT NULL,
   `interv_client` int(11) NOT NULL,
   `interv_typeid` int(11) NOT NULL,
+  `interv_mecanicien` int(11) NOT NULL,
   `interv_etatfacture` varchar(2) COLLATE utf8_bin NOT NULL DEFAULT 'AP',
   `interv_tarif` float NOT NULL,
   `interv_date` date NOT NULL
@@ -124,11 +128,11 @@ CREATE TABLE `intervention` (
 -- Contenu de la table `intervention`
 --
 
-INSERT INTO `intervention` (`interv_id`, `interv_client`, `interv_typeid`, `interv_etatfacture`, `interv_tarif`, `interv_date`) VALUES
-(1, 1, 1, 'AP', 375, '2017-11-16'),
-(2, 1, 3, 'DF', 12, '2017-11-16'),
-(3, 1, 1, 'DF', 74, '2017-11-24'),
-(4, 2, 1, 'P', 6464, '2017-11-02');
+INSERT INTO `intervention` (`interv_id`, `interv_client`, `interv_typeid`, `interv_mecanicien`, `interv_etatfacture`, `interv_tarif`, `interv_date`) VALUES
+(5, 1, 3, 2, 'DF', 160, '2017-07-06'),
+(6, 1, 1, 2, 'AP', 50, '2017-09-21'),
+(7, 1, 4, 2, 'AP', 250, '2017-11-03'),
+(8, 1, 5, 2, 'P', 400, '2017-04-19');
 
 -- --------------------------------------------------------
 
@@ -147,7 +151,10 @@ CREATE TABLE `type_intervention` (
 
 INSERT INTO `type_intervention` (`typeinterv_id`, `typeinterv_nom`) VALUES
 (1, 'vidange'),
-(3, 'forfait plaquette');
+(2, 'courroie de distribution'),
+(3, 'plaquettes'),
+(4, 'parallélisme'),
+(5, 'changement embrayage');
 
 --
 -- Index pour les tables exportées
@@ -185,7 +192,8 @@ ALTER TABLE `intervention`
   ADD PRIMARY KEY (`interv_id`),
   ADD KEY `interv_client` (`interv_client`),
   ADD KEY `interv_etatfacture` (`interv_etatfacture`),
-  ADD KEY `interv_typeid` (`interv_typeid`);
+  ADD KEY `interv_typeid` (`interv_typeid`),
+  ADD KEY `interv_mecanicien` (`interv_mecanicien`);
 
 --
 -- Index pour la table `type_intervention`
@@ -206,7 +214,7 @@ ALTER TABLE `categorie_employe`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT pour la table `employe`
 --
@@ -216,12 +224,12 @@ ALTER TABLE `employe`
 -- AUTO_INCREMENT pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  MODIFY `interv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `interv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT pour la table `type_intervention`
 --
 ALTER TABLE `type_intervention`
-  MODIFY `typeinterv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `typeinterv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- Contraintes pour les tables exportées
 --
@@ -236,6 +244,7 @@ ALTER TABLE `employe`
 -- Contraintes pour la table `intervention`
 --
 ALTER TABLE `intervention`
+  ADD CONSTRAINT `FK_INTER_MECANICIEN` FOREIGN KEY (`interv_mecanicien`) REFERENCES `employe` (`empl_id`),
   ADD CONSTRAINT `FK_INTER_CLIENT` FOREIGN KEY (`interv_client`) REFERENCES `client` (`client_id`),
   ADD CONSTRAINT `FK_INTER_ETAT_FACT` FOREIGN KEY (`interv_etatfacture`) REFERENCES `etat_facture` (`etat_facture_char`),
   ADD CONSTRAINT `FK_INTER_TYPE_ID` FOREIGN KEY (`interv_typeid`) REFERENCES `type_intervention` (`typeinterv_id`);

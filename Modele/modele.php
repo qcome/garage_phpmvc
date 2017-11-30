@@ -30,8 +30,11 @@ function connexionEmployee($user, $pwd){
 function getClientInterventions($id_client){
 	$connexion=getConnect();
 	$req="select * from client c INNER JOIN intervention i ON 
-			c.client_id = i.interv_client INNER JOIN type_intervention t 
-			ON i.interv_typeid = t.typeinterv_id WHERE c.client_id=".$id_client;
+			c.client_id = i.interv_client INNER JOIN type_intervention t ON
+			i.interv_typeid = t.typeinterv_id INNER JOIN employe e ON
+			i.interv_mecanicien = e.empl_id INNER JOIN etat_facture f ON
+			f.etat_facture_char = i.interv_etatfacture
+			WHERE c.client_id=".$id_client." ORDER BY i.interv_etatfacture ASC";
 	$res=$connexion->query($req); 
 	$res->setFetchMode(PDO::FETCH_OBJ);
 	

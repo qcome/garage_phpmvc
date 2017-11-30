@@ -4,3 +4,12 @@
 .elem {
 	margin-top: 12px;
 }
+fieldset{
+	float: left;
+}
+form{
+	display: inline-block;
+}
+#global{
+	text-align: center;
+}

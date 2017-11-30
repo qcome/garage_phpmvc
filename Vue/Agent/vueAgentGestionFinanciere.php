@@ -1,21 +1,8 @@
 <?php 
 
-function afficherVueAgent ($data=''){
-	$titre = 'Agent'; 
-	$contenu = '<div id="msgAccueil">Wesh Mr l\'agent, que désirez-vous faire?</div>
-				<div class="elem">
-					<form method="post">
-						<input type="submit" name="gestionFinanciere" value="Gestion financière"  />
-						<input type="submit" name="syntheseClient" value="Synthèse client"  />
-						<input type="submit" name="gestionRdv" value="Gestion rdv"  />
-					</form>
-				</div>';
-	$contenu.= $data;
-	require_once 'gabarit.php';
-}
-
 function afficherGestionFinanciere ($data='', $err_msg=''){
 	$contenu = '<div class="elem">
+				<h3>Gestion financière</h3>
 				<form method="post">
 					<label for="idClient">ID client :</label> 
 					<input type="text" name="idClient" id="idClient" required />
@@ -24,7 +11,7 @@ function afficherGestionFinanciere ($data='', $err_msg=''){
 				</div>';
 	$contenu.= $data;
 	$contenu.= $err_msg;
-	afficherVueAgent($contenu);
+	afficherVueAgent($_SESSION['username'], $contenu);
 }
 
 function afficherGestionFinanciereResultats($tab_res, $client_id, $msg_error=''){
@@ -66,7 +53,7 @@ function afficherGestionFinanciereResultats($tab_res, $client_id, $msg_error='')
 			}
 			$contenu.='<tr>
 						<td><input type="checkbox" id="boxInterv_'.$cpt_row.'" name="interv[]" value="'.$cpt_row.'"></td>
-						<td>'.$row->interv_etatfacture.'</td>
+						<td>'.$row->etat_facture_value.'</td>
 						<td>'.$row->interv_id.'</td>
 						<td>'.$row->typeinterv_nom.'</td>
 						<td>'.$row->interv_date.'</td>
@@ -77,7 +64,7 @@ function afficherGestionFinanciereResultats($tab_res, $client_id, $msg_error='')
 		$cpt_row++;
 	}
 	if($no_result)
-		$contenu.='<p>Toute les interventions ont été payées.</p>';
+		$contenu.='<p>Les paiement sont à jour.</p>';
 	else{
 		$contenu.='</table>
 				</fieldset>'.$msg_error.'

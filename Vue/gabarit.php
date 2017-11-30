@@ -12,6 +12,7 @@
       </header>
       <div id="contenu">
 		<img src="Vue/image/carglouch.jpg" alt="Mountain View">
+		<br>
         <?= $contenu ?>   
       </div>
       <footer id="footer">
