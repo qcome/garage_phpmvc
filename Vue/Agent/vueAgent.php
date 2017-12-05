@@ -12,7 +12,7 @@ function afficherVueAgent ($username, $data=''){
 						<input type="submit" name="syntheseClient" value="Synthèse client"  />
 						<input type="submit" name="gestionRdv" value="Gestion rdv"  />
 						<br>
-						<input type="submit" name="creerClient" value="Créer client"  />
+						<input type="submit" name="gotoAjouterClient" value="Ajouter client"  />
 						<input type="submit" name="modifierClient" value="Modifier client"  />
 						<input type="submit" name="gotoRetrouverClient" value="Retrouver client"  />
 					</form>

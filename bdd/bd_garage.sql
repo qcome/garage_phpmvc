@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  127.0.0.1:3306
--- Généré le :  Jeu 30 Novembre 2017 à 02:10
+-- Généré le :  Mar 05 Décembre 2017 à 12:36
 -- Version du serveur :  5.5.24
 -- Version de PHP :  5.5.38
 
@@ -62,9 +62,15 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`client_id`, `client_firstname`, `client_lastname`, `client_address`, `client_phonenum`, `client_mail`, `client_birthday`, `client_maxdiff`) VALUES
-(1, 'Jean-Pierre', 'Pernaut', '6 rue des tulipes', '0612121212', 'jpp@mail.com', '1950-04-08', 200),
+(1, 'Jean-Pierre', 'Pernaut', '6 rue des tulipes', '0612121212', 'jpp@mail.com', '1950-04-08', 300),
 (2, 'Vincent', 'Lagaf', '12 rue des carottes', '0983736337', 'bolelavabo@mail.com', '1959-10-30', 1000),
-(3, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500);
+(3, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500),
+(4, 'Vincent', 'Lagaf', '12 rue des carottes', '0983736337', 'bolelavabo@mail.com', '1959-10-02', 1000),
+(16, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500),
+(17, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500),
+(18, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500),
+(19, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500),
+(20, 'Bob', 'Marley', '12000 route du Zion', '0392819232', 'vivelestulipes@mail.com', '1945-02-06', 500);
 
 -- --------------------------------------------------------
 
@@ -129,9 +135,9 @@ CREATE TABLE `intervention` (
 --
 
 INSERT INTO `intervention` (`interv_id`, `interv_client`, `interv_typeid`, `interv_mecanicien`, `interv_etatfacture`, `interv_tarif`, `interv_date`) VALUES
-(5, 1, 3, 2, 'DF', 160, '2017-07-06'),
-(6, 1, 1, 2, 'AP', 50, '2017-09-21'),
-(7, 1, 4, 2, 'AP', 250, '2017-11-03'),
+(5, 1, 3, 2, 'AP', 160, '2017-07-06'),
+(6, 1, 1, 2, 'P', 50, '2017-09-21'),
+(7, 1, 4, 2, 'DF', 250, '2017-11-03'),
 (8, 1, 5, 2, 'P', 400, '2017-04-19');
 
 -- --------------------------------------------------------
@@ -214,7 +220,7 @@ ALTER TABLE `categorie_employe`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT pour la table `employe`
 --
@@ -244,9 +250,9 @@ ALTER TABLE `employe`
 -- Contraintes pour la table `intervention`
 --
 ALTER TABLE `intervention`
-  ADD CONSTRAINT `FK_INTER_MECANICIEN` FOREIGN KEY (`interv_mecanicien`) REFERENCES `employe` (`empl_id`),
   ADD CONSTRAINT `FK_INTER_CLIENT` FOREIGN KEY (`interv_client`) REFERENCES `client` (`client_id`),
   ADD CONSTRAINT `FK_INTER_ETAT_FACT` FOREIGN KEY (`interv_etatfacture`) REFERENCES `etat_facture` (`etat_facture_char`),
+  ADD CONSTRAINT `FK_INTER_MECANICIEN` FOREIGN KEY (`interv_mecanicien`) REFERENCES `employe` (`empl_id`),
   ADD CONSTRAINT `FK_INTER_TYPE_ID` FOREIGN KEY (`interv_typeid`) REFERENCES `type_intervention` (`typeinterv_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

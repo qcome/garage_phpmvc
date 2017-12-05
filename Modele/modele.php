@@ -94,6 +94,14 @@ function getClientId($client_name, $client_birthday){
 	return $result;
 }
 
+function insertClient($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client){
+	$connexion=getConnect(); 
+	$req="INSERT INTO client (client_firstname, client_lastname, client_address, client_phonenum, client_mail, client_birthday, client_maxdiff) VALUES 
+		('".$prenom_client."', '".$nom_client."', '".$adresse_client."', '".$phone_client."', '".$mail_client."', '".$birthday_client."', '".$diff_client."')";
+	$res=$connexion->query($req); 
+	$res->closeCursor(); 
+}
+
 function getConnect(){
 	$connexion=new PDO('mysql:host=localhost;dbname=bd_garage',"root","");
 	$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

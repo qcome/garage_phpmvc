@@ -54,7 +54,20 @@
 			$client_name=$_POST['nomClient'];
 			CtlRetrouverClientResultat($client_name, $client_birthday);
 		}
-		
+		#Créer client
+		elseif(isset($_POST['gotoAjouterClient'])){
+			CtlAjouterClient();
+		}
+		elseif(isset($_POST['ajouterClientSubmit'])){
+			$nom_client=$_POST['nomClient'];
+			$prenom_client=$_POST['prenomClient'];
+			$birthday_client=$_POST['birthdayClient'];
+			$adresse_client=$_POST['adresseClient'];
+			$phone_client=$_POST['phoneClient'];
+			$mail_client=$_POST['mailClient'];
+			$diff_client=$_POST['diffClient'];
+			CtlAjouterClientAction($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client);
+		}
 		elseif(isset($_POST['logout'])){
 			CtlLogout();
 		}

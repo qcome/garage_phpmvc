@@ -4,8 +4,8 @@ function afficherRetrouverClient($data='', $err_msg=''){
 	$contenu = '<div class="elem">
 				<h3>Retrouver client</h3>
 				<form method="post">
-					<label for="id_client">Nom client :</label> 
-					<input type="text" name="nomClient" id="id_client" required />
+					<label for="nom_client">Nom client :</label> 
+					<input type="text" name="nomClient" id="nom_client" required />
 					<br>
 					<label for="birthday_client">Date de naissance :</label> 
 					<input type="date" name="birthdayClient" id="birthday_client" required />

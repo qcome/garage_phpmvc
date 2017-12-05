@@ -3,6 +3,7 @@ require_once('Vue/Agent/vueAgent.php');
 require_once('Vue/Agent/vueAgentGestionFinanciere.php');
 require_once('Vue/Agent/vueAgentSyntheseClient.php');
 require_once('Vue/Agent/vueAgentRetrouverClient.php');
+require_once('Vue/Agent/vueAgentCreerClient.php');
 
 /*************************************
 ******Partie GESTION FINANCIERE*******
@@ -144,10 +145,26 @@ function CtlRetrouverClientResultat($client_name, $client_birthday){
 		if($res)
 			afficherRetrouverClientResultat($res);
 		else
-			afficherRetrouverClient($err_msg=getDivErrorMsg("Client non trouvé."));
-		
+			afficherRetrouverClient($err_msg=getDivErrorMsg("Client non trouvé."));	
 	}catch(Exception $e){
 		afficherRetrouverClient($err_msg=getDivErrorMsg($e->getMessage()));
+	}
+}
+
+/*************************************
+*********Partie CREER CLIENT**********
+*************************************/
+
+function CtlAjouterClient(){
+	afficherAjouterClient();
+}
+
+function CtlAjouterClientAction($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client){
+	try{
+		insertClient($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client);
+		afficherAjouterClient("Client ajouté!");
+	}catch(Exception $e){
+		afficherAjouterClient(getDivErrorMsg("Probleme ajout client..."));
 	}
 	
 }
