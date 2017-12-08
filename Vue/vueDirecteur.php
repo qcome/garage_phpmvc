@@ -3,4 +3,4 @@
 
 	$contenu ='<p>Wesh Mr le directeur, que désirez-vous faire?</p>';
 
-	require_once 'gabarit.php';
+	require_once 'Vue/gabarit.php';

@@ -4,7 +4,7 @@ require_once('Vue/Agent/vueAgentGestionFinanciere.php');
 require_once('Vue/Agent/vueAgentSyntheseClient.php');
 require_once('Vue/Agent/vueAgentRetrouverClient.php');
 require_once('Vue/Agent/vueAgentCreerClient.php');
-
+require_once('Vue/Agent/vueAgentModifierClient.php');
 /*************************************
 ******Partie GESTION FINANCIERE*******
 *************************************/
@@ -164,9 +164,39 @@ function CtlAjouterClientAction($prenom_client, $nom_client, $adresse_client, $p
 		insertClient($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client);
 		afficherAjouterClient("Client ajouté!");
 	}catch(Exception $e){
-		afficherAjouterClient(getDivErrorMsg("Probleme ajout client..."));
+		afficherAjouterClient(getDivErrorMsg("Client déjà existant"));
 	}
-	
+}
+
+/*************************************
+*******Partie MODIFIER CLIENT*********
+*************************************/
+
+function CtlModifierClient(){
+	afficherModifierClient();
+}
+
+function CtlModifierClientID($client_id){
+	# si l'utilisateur a bien entré un entier pour l'id
+	if(ctype_digit($client_id))
+		try{
+			$res=getClient($client_id);
+			$_SESSION['infoClient'] = $res;
+			afficherModifierClientRes($res);
+		}catch(Exception $e){
+			afficherModifierClient(getDivErrorMsg($e->getMessage()));
+		}
+	else
+		afficherModifierClientRes($err_msg=getDivErrorMsg("L'id client doit etre un entier"));
+}
+
+function CtlModifierClientAction($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client){
+$msg ="";
+if(!ctype_alpha($prenom_client)){
+	afficherModifierClientRes($_SESSION['infoClient'],getDivErrorMsg("pas des lettres ca lol hein ?"));
+}
+
+
 }
 
 

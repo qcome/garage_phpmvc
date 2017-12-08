@@ -68,6 +68,25 @@
 			$diff_client=$_POST['diffClient'];
 			CtlAjouterClientAction($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client);
 		}
+		#Modifier client
+		elseif(isset($_POST['modifierClient'])){
+			CtlModifierClient();
+		}
+		elseif(isset($_POST['modifierClientID'])){
+			$client_id=$_POST['idClient'];
+			CtlModifierClientID($client_id);
+		}
+		elseif(isset($_POST['modifierClientSubmit'])){
+						$nom_client=$_POST['nomClient'];
+			$prenom_client=$_POST['prenomClient'];
+			$birthday_client=$_POST['birthdayClient'];
+			$adresse_client=$_POST['adresseClient'];
+			$phone_client=$_POST['phoneClient'];
+			$mail_client=$_POST['mailClient'];
+			$diff_client=$_POST['diffClient'];
+			CtlModifierClientAction($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client);
+		}
+		
 		elseif(isset($_POST['logout'])){
 			CtlLogout();
 		}

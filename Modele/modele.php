@@ -94,6 +94,20 @@ function getClientId($client_name, $client_birthday){
 	return $result;
 }
 
+function getClient($id_client){
+	$connexion=getConnect();
+	$req="select * from client c WHERE c.client_id=".$id_client;
+	$res=$connexion->query($req); 
+	$res->setFetchMode(PDO::FETCH_OBJ);
+	
+	if ($result = $res->fetchAll()) {
+		$res->closeCursor();
+        return $result;
+    }
+	$res->closeCursor();
+	throw new Exception("Client inconnu au bataillon");
+}
+
 function insertClient($prenom_client, $nom_client, $adresse_client, $phone_client, $mail_client, $birthday_client, $diff_client){
 	$connexion=getConnect(); 
 	$req="INSERT INTO client (client_firstname, client_lastname, client_address, client_phonenum, client_mail, client_birthday, client_maxdiff) VALUES 

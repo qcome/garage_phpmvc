@@ -53,7 +53,7 @@ function afficherGestionFinanciereResultats($tab_interventions, $client_id, $dif
 							<td>'.$row->etat_facture_value.'</td>
 							<td>'.$row->interv_id.'</td>
 							<td>'.$row->typeinterv_nom.'</td>
-							<td>'.$row->interv_date.'</td>
+							<td>'.$row->interv_datedebut.'</td>
 							<td>'.$row->interv_tarif.'</td></tr>';
 				if($no_result)
 					$no_result=False;
